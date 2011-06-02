@@ -1,0 +1,21 @@
+/*
+ * Gradle build file.
+ */
+version = '0.0.1'
+bundleVersion = version
+
+projectName = 'MRG I/O'
+projectDescription = projectName
+projectURL = 'https://github.com/heuer/mrg-ext'
+
+sesameLib = 'lib/openrdf-sesame-2.4.0-onejar.jar'
+rdfaLib = 'lib/rdfa-0.1.1.jar'
+
+libs = [sesameLib, rdfaLib]
+
+dependencies {
+    compile files(libs),
+            'org.slf4j:slf4j-api:(1.5.8,)'
+    testRuntime 'org.slf4j:slf4j-jdk14:(1.5.8,)'
+}
+
