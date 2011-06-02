@@ -17,10 +17,18 @@ package org.mulgara.mrg.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
+import org.mulgara.mrg.Bnode;
 import org.mulgara.mrg.Graph;
+import org.mulgara.mrg.Literal;
+import org.mulgara.mrg.Node;
+import org.mulgara.mrg.ObjectNode;
+import org.mulgara.mrg.SubjectNode;
+import org.mulgara.mrg.Uri;
 
 import junit.framework.TestCase;
 
@@ -31,12 +39,35 @@ import junit.framework.TestCase;
  */
 public class TestIOUtils extends TestCase {
 
+    private static final Uri 
+        name = Uri.create("http://xmlns.com/foaf/0.1/name"),
+        shoeSize = Uri.create("http://biometrics.example/ns#shoeSize");
+    
+    private static final URI integer = URI.create("http://www.w3.org/2001/XMLSchema#integer");
+
     private static Graph graphByFileName(final String fileName) throws IOException {
         return IOUtils.loadGraph(fileName);
     }
 
     private static Graph graphByFile(final String fileName) throws IOException, URISyntaxException {
         return IOUtils.loadGraph(new File(TestIOUtils.class.getResource(fileName).toURI()));
+    }
+
+    /**
+     * Tests the composition of a graph.
+     * @param g The graph to test.
+     */
+    // Taken from org.mulgara.mrg.parser.ParseTest, copyright 2010 Paul Gearon. 
+    private static void verifyData(Graph g) throws Exception {
+        List<SubjectNode> s = g.getSubjects(name, new Literal("Bruce Campbell"));
+        assertEquals(s.size(), 1);
+        Node n = s.get(0);
+        assertTrue(n instanceof Bnode);
+        Bnode d = (Bnode)n;
+        ObjectNode ten = g.getValue(d, shoeSize);
+        assertTrue(ten instanceof Literal);
+        assertEquals("10", ((Literal)ten).getText());
+        assertEquals(integer, ((Literal)ten).getType());
     }
 
     public void testNonExisting() throws Exception {
@@ -70,11 +101,11 @@ public class TestIOUtils extends TestCase {
     }
 
     public void testLoadFileN3() throws Exception {
-        graphByFile("/test.n3");
+        verifyData(graphByFile("/test.n3"));
     }
 
     public void testLoadFileNameN3() throws Exception {
-        graphByFileName("/test.n3");
+        verifyData(graphByFileName("/test.n3"));
     }
 
     public void testLoadURLRDFa() throws Exception {
