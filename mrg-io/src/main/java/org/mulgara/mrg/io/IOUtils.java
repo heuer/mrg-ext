@@ -133,11 +133,15 @@ public final class IOUtils {
     }
 
     /**
+     * Tries to send a HTTP GET request to the provided URL.
      * 
+     * The requests contains an Accept-header with all supported RDF media
+     * types. In case the server answers with an unknown media type, this 
+     * function tries to read the anwer payload as RDF/XML.
      * 
-     * @param url
-     * @return
-     * @throws IOException
+     * @param url The URL to connect to.
+     * @return A graph.
+     * @throws IOException In case of an error.
      */
     public static Graph loadGraph(final URL url) throws IOException {
         final URLConnection conn = url.openConnection();
@@ -189,13 +193,16 @@ public final class IOUtils {
     }
 
     /**
+     * Creates a graph from the provided file name.
      * 
+     * The file must be accessible through the class path.
      *
-     * @param fileName
-     * @return
-     * @throws IOException
+     * @param fileName The file to read.
+     * @return The deserialized graph.
+     * @throws IOException In case of an error.
      */
     public static Graph loadGraph(final String fileName) throws IOException {
+        //TODO: Use the class loader to load the resource?
         final URL baseURL = IOUtils.class.getResource(fileName);
         if (baseURL == null) {
             throw new IOException("File not found: " + fileName);
@@ -214,7 +221,7 @@ public final class IOUtils {
      * @param fileName
      * @param baseURI
      * @return
-     * @throws IOException
+     * @throws IOException In case of an error.
      */
     public static Graph loadGraph(final String fileName, final URI baseURI) throws IOException {
         return parse(RDFFormat.forFileName(fileName), IOUtils.class.getResourceAsStream(fileName), baseURI);
@@ -225,7 +232,7 @@ public final class IOUtils {
      *
      * @param file
      * @return
-     * @throws IOException
+     * @throws IOException In case of an error.
      */
     public static Graph loadGraph(final File file) throws IOException {
         return loadGraph(file, file.toURI());
@@ -237,7 +244,7 @@ public final class IOUtils {
      * @param file
      * @param baseURI
      * @return
-     * @throws IOException
+     * @throws IOException In case of an error.
      */
     public static Graph loadGraph(final File file, final URI baseURI) throws IOException {
         return _loadGraph(file.toURI().toURL(), baseURI);
@@ -249,7 +256,7 @@ public final class IOUtils {
      * @param url
      * @param baseURI
      * @return
-     * @throws IOException
+     * @throws IOException In case of an error.
      */
     private static Graph _loadGraph(final URL url, final URI baseURI) throws IOException {
         final String fileName = url.getFile();
