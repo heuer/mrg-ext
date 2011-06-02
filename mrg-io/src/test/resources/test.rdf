@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+  <!ENTITY ns1 'http://xmlns.com/foaf/0.1/'>
+  <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+  <!ENTITY dc 'http://purl.org/dc/elements/1.1/'>
+  <!ENTITY ns0 'foo:'>
+  <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+  <!ENTITY ns2 'http://biometrics.example/ns#'>
+  <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>]>
+
+<rdf:RDF
+  xmlns:rdf="&rdf;"
+  xmlns:ns1="&ns1;"
+  xmlns:owl="&owl;"
+  xmlns:dc="&dc;"
+  xmlns:ns0="&ns0;"
+  xmlns:xsd="&xsd;"
+  xmlns:ns2="&ns2;"
+  xmlns:rdfs="&rdfs;">
+
+  <rdf:Description rdf:about="&ns0;foo">
+    <ns0:bar rdf:resource="&ns0;baz"/>
+  </rdf:Description>\n
+
+  <rdf:Description rdf:nodeID="node197">
+    <ns2:shoeSize rdf:datatype="&xsd;float">9.5</ns2:shoeSize>
+    <ns1:name>Alice Smith</ns1:name>
+  </rdf:Description>\n
+
+  <rdf:Description rdf:nodeID="node198">
+    <ns2:shoeSize rdf:datatype="&xsd;integer">32</ns2:shoeSize>
+    <ns1:name>Bob Smith</ns1:name>
+  </rdf:Description>
+
+  <rdf:Description rdf:nodeID="node199">
+    <ns2:shoeSize rdf:datatype="&xsd;integer">42</ns2:shoeSize>
+    <ns1:name>Bob Collins</ns1:name>
+  </rdf:Description>\n
+
+  <rdf:Description rdf:nodeID="node200">
+    <ns2:shoeSize rdf:datatype="&xsd;integer">10</ns2:shoeSize>
+    <ns1:name>Bruce Campbell</ns1:name>
+  </rdf:Description>\n
+
+</rdf:RDF>

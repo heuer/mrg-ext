@@ -108,6 +108,14 @@ public class TestIOUtils extends TestCase {
         verifyData(graphByFileName("/test.n3"));
     }
 
+    public void testLoadFileRDFXML() throws Exception {
+        verifyData(graphByFile("/test.rdf"));
+    }
+
+    public void testLoadFileNameRDFXML() throws Exception {
+        verifyData(graphByFileName("/test.rdf"));
+    }
+
     public void testLoadURLRDFa() throws Exception {
         Graph graph = IOUtils.loadGraph(new URL("http://www.connectors.de/p/slotted_cheese_head_screws-din_84-iso_1207-N84.en"));
     }
