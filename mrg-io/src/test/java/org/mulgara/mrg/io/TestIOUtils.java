@@ -42,8 +42,11 @@ public class TestIOUtils extends TestCase {
     private static final Uri
         apple = Uri.create("http://www.productontology.org/id/Apple"),
         subClassOf = Uri.create("http://www.w3.org/2000/01/rdf-schema#subClassOf"),
+        type = Uri.create("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
         productOrService = Uri.create("http://purl.org/goodrelations/v1#ProductOrService"),
         label = Uri.create("http://www.w3.org/2000/01/rdf-schema#label"),
+        screw = Uri.create("http://www.productontology.org/id/Screw"),
+        offering = Uri.create("http://purl.org/goodrelations/v1#Offering"),
         
         name = Uri.create("http://xmlns.com/foaf/0.1/name"),
         shoeSize = Uri.create("http://biometrics.example/ns#shoeSize");
@@ -137,7 +140,9 @@ public class TestIOUtils extends TestCase {
     }
 
     public void testLoadURLRDFa() throws Exception {
-        Graph graph = IOUtils.loadGraph(new URL("http://www.connectors.de/p/slotted_cheese_head_screws-din_84-iso_1207-N84.en"));
+        final Graph g = IOUtils.loadGraph(new URL("http://www.connectors.de/p/slotted_cheese_head_screws-din_84-iso_1207-N84.en"));
+        assertTrue(g.isAsserted("http://psi.connectors.de/product/N84", type, screw));
+        assertTrue(g.isAsserted("http://psi.connectors.de/product/N84", type, offering));
     }
 
 }
