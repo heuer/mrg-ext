@@ -153,8 +153,13 @@ public final class IOUtils {
         catch (URISyntaxException ex) {
             throw new IOException(ex);
         }
-        final String contentType = conn.getContentType() != null ? conn.getContentType().toLowerCase() : null;
+        String contentType = conn.getContentType() != null ? conn.getContentType().toLowerCase() : null;
         if (contentType != null) {
+            final int delimiter = contentType.indexOf(';');
+            if (delimiter > 0) {
+                // Cut away charset info like "text/turtle;charset=utf-8"
+                contentType = contentType.substring(0, delimiter);
+            }
             final String contentEncoding = conn.getHeaderField("Content-Encoding");
             InputStream in = new BufferedInputStream(conn.getInputStream());
             if (contentEncoding != null && contentEncoding.equalsIgnoreCase("gzip")) {

@@ -39,7 +39,12 @@ import junit.framework.TestCase;
  */
 public class TestIOUtils extends TestCase {
 
-    private static final Uri 
+    private static final Uri
+        apple = Uri.create("http://www.productontology.org/id/Apple"),
+        subClassOf = Uri.create("http://www.w3.org/2000/01/rdf-schema#subClassOf"),
+        productOrService = Uri.create("http://purl.org/goodrelations/v1#ProductOrService"),
+        label = Uri.create("http://www.w3.org/2000/01/rdf-schema#label"),
+        
         name = Uri.create("http://xmlns.com/foaf/0.1/name"),
         shoeSize = Uri.create("http://biometrics.example/ns#shoeSize");
     
@@ -69,6 +74,13 @@ public class TestIOUtils extends TestCase {
         assertEquals("10", ((Literal)ten).getText());
         assertEquals(integer, ((Literal)ten).getType());
     }
+
+    private static void verifyAppleData(final Graph g) {
+        assertTrue(g.isAsserted(apple, subClassOf, productOrService));
+        final Literal lit = new Literal("Apple", "en");
+        assertTrue(g.isAsserted(apple, label, lit));
+    }
+
 
     public void testNonExisting() throws Exception {
         try {
@@ -114,6 +126,14 @@ public class TestIOUtils extends TestCase {
 
     public void testLoadFileNameRDFXML() throws Exception {
         verifyData(graphByFileName("/test.rdf"));
+    }
+
+    public void testLoadURLRDFXML() throws Exception {
+        verifyAppleData(IOUtils.loadGraph(new URL("http://www.productontology.org/doc/Apple.rdf")));
+    }
+
+    public void testLoadURLTurtle() throws Exception {
+        verifyAppleData(IOUtils.loadGraph(new URL("http://www.productontology.org/doc/Apple.ttl")));
     }
 
     public void testLoadURLRDFa() throws Exception {
