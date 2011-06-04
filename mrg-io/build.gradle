@@ -11,11 +11,59 @@ projectURL = 'https://github.com/heuer/mrg-ext'
 sesameLib = 'lib/openrdf-sesame-2.4.0-onejar.jar'
 rdfaLib = 'lib/rdfa-0.1.1.jar'
 
+configurations {
+    tools
+}
+
+repositories {
+    // jarjar
+    mavenRepo urls: 'http://repo.joist.ws/'
+}
+
 libs = [sesameLib, rdfaLib]
 
 dependencies {
+    tools 'com.tonicsystems:jarjar:1.0'
+
     compile files(libs),
             'org.slf4j:slf4j-api:(1.5.8,)'
     testRuntime 'org.slf4j:slf4j-jdk14:(1.5.8,)'
 }
 
+jar << {
+    def tmp_jar = "$buildDir/libs/tmp.jar"
+    def new_jar = jar.archivePath
+    def extracted = "$buildDir/libs/extracted"
+    def classesDir = sourceSets.main.classesDir
+
+    ant {
+        taskdef name: 'jarjar', 
+            classname: 'com.tonicsystems.jarjar.JarJarTask', 
+            classpath: configurations.tools.asPath
+
+        jarjar(jarfile: tmp_jar) {
+            //fileset dir: classesDir
+            zipfileset src: jar.archivePath
+            zipfileset src: sesameLib, excludes: 'META-INF/**'
+            zipfileset src: rdfaLib, excludes: 'META-INF/**'
+
+            rule pattern: "info.aduna.**", result: "org.mulgara.mrg.io.internal.aduna.@1"
+            rule pattern: "org.openrdf.**", result: "org.mulgara.mrg.io.internal.openrdf.@1"
+            rule pattern: "net.rootdev.**", result: "org.mulgara.mrg.io.internal.rdfa.@1"
+
+            keep pattern: 'org.openrdf.rio.**'
+            keep pattern: 'net.rootdev.**'
+            // The following line should be sufficient, but it does not work. JarJar, removes org.openrdf.rio classes.
+            keep pattern: 'org.mulgara.**'
+        }
+    
+        unjar src: tmp_jar, dest: extracted
+        delete dir: "$extracted/org/mulgara/mrg/io/internal/openrdf/console"
+        delete(includeemptydirs: 'true') {
+            // Deletes all empty packages / directories
+            fileset(dir: extracted, excludes: '**/*.*')
+        }
+        delete file: tmp_jar
+        jar destfile: new_jar, basedir: extracted
+    }
+}
