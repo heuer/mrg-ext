@@ -20,6 +20,8 @@ repositories {
     mavenRepo urls: 'http://repo.joist.ws/'
 }
 
+metaInf = [file('NOTICE.TXT')]
+
 libs = [sesameLib, rdfaLib]
 
 dependencies {
@@ -69,5 +71,6 @@ jar << {
         }
         delete file: tmp_jar
         jar destfile: new_jar, basedir: extracted
+        delete dir: extracted
     }
 }
