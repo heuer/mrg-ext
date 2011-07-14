@@ -8,7 +8,7 @@ projectName = 'MRG I/O'
 projectDescription = projectName
 projectURL = 'https://github.com/heuer/mrg-ext'
 
-sesameLib = 'lib/openrdf-sesame-2.4.0-onejar.jar'
+sesameLib = 'lib/openrdf-sesame-2.4.2-onejar.jar'
 rdfaLib = 'lib/rdfa-0.1.1.jar'
 
 configurations {

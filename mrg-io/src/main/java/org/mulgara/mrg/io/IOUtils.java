@@ -290,7 +290,7 @@ public final class IOUtils {
      */
     static WritableGraph parse(final RDFFormat format, final InputStream in, final URI baseURI, final GraphFactory factory) throws IOException {
         final RDFParser parser = createParser(format);
-        final WritableGraph graph =factory.createGraph();
+        final WritableGraph graph = factory.createGraph();
         parser.setRDFHandler(new StatementHandler(graph));
         try {
             parser.parse(in, baseURI.toString());
