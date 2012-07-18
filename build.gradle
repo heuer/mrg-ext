@@ -12,9 +12,7 @@ configure(javaProjects()) {
   apply plugin: 'eclipse'
   apply from: 'https://github.com/breskeby/gradleplugins/raw/master/emmaPlugin/emma.gradle'
   
-  eclipseClasspath.variables = [:]
-
-  eclipseClasspath.downloadSources = false
+  eclipse.classpath.downloadSources = false
 
   sourceCompatibility = '1.6'
 

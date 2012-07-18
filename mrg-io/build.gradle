@@ -8,8 +8,8 @@ projectName = 'MRG I/O'
 projectDescription = projectName
 projectURL = 'https://github.com/heuer/mrg-ext'
 
-sesameLib = 'lib/openrdf-sesame-2.4.2-onejar.jar'
-rdfaLib = 'lib/rdfa-0.1.1.jar'
+ext.sesameLib = 'lib/openrdf-sesame-2.6.8-onejar.jar'
+ext.rdfaLib = 'lib/rdfa-0.1.1.jar'
 
 configurations {
     tools
@@ -17,12 +17,12 @@ configurations {
 
 repositories {
     // jarjar
-    mavenRepo urls: 'http://repo.joist.ws/'
+    maven { url 'http://repo.joist.ws/' }
 }
 
 metaInf = [file('NOTICE.TXT')]
 
-libs = [sesameLib, rdfaLib]
+ext.libs = [sesameLib, rdfaLib]
 
 dependencies {
     tools 'com.tonicsystems:jarjar:1.0'
