@@ -36,7 +36,7 @@ jar << {
     def tmp_jar = "$buildDir/libs/tmp.jar"
     def new_jar = jar.archivePath
     def extracted = "$buildDir/libs/extracted"
-    def classesDir = sourceSets.main.classesDir
+    def classesDir = sourceSets.main.output.classesDir
 
     ant {
         taskdef name: 'jarjar', 

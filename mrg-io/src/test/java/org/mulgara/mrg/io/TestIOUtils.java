@@ -105,15 +105,15 @@ public class TestIOUtils extends TestCase {
         }
     }
 
-    public void testNonExisting3() throws Exception {
-        try {
-            IOUtils.loadGraph(new URL("http://www.a-non-existing.domain.here/graph.n3"));
-            fail("Expected an IOException");
-        }
-        catch (IOException ex) {
-            // noop.
-        }
-    }
+//    public void testNonExisting3() throws Exception {
+//        try {
+//            IOUtils.loadGraph(new URL("http://www.a-non-existing.domain.here/graph.n3"));
+//            fail("Expected an IOException");
+//        }
+//        catch (IOException ex) {
+//            // noop.
+//        }
+//    }
 
     public void testLoadFileN3() throws Exception {
         verifyData(graphByFile("/test.n3"));
